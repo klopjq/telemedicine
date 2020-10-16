@@ -14,7 +14,7 @@ import (
 
 func main() {
 	logPath := "/tmp/request.log"
-	httpPort := 5050
+	httpPort := 8080
 	setLogFile(logPath)
 
 	http.HandleFunc("/", indexHandler)
