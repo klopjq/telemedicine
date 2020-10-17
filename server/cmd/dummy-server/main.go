@@ -47,10 +47,10 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		code = http.StatusNoContent
 	case "GET":
 		code = http.StatusOK
-		msg = fmt.Sprintf(`[{"subscriptionId":"%s"}]`, uuid.New())
+		msg = fmt.Sprintf(`[{"uuId":"%s"}]`, uuid.New())
 	case "POST":
 		code = http.StatusCreated
-		msg = fmt.Sprintf(`{"subscriptionId":"%s"}`, uuid.New())
+		msg = fmt.Sprintf(`{"uuId":"%s"}`, uuid.New())
 		if r.URL.Path == "/204/" {
 			code = http.StatusNoContent
 			msg = ""
