@@ -12,9 +12,19 @@ import (
 	"github.com/google/uuid"
 )
 
+func GetPort() string {
+	var port = os.Getenv("PORT")
+	// Set a default port if there is nothing in the environment
+	if port == "" {
+		port = "8080"
+		fmt.Println("INFO: No PORT environment variable detected, defaulting to " + port)
+	}
+	return ":" + port
+}
+
 func main() {
 	logPath := "/tmp/request.log"
-	httpPort := 8080
+	httpPort := GetPort()
 	setLogFile(logPath)
 
 	http.HandleFunc("/", indexHandler)
@@ -22,7 +32,7 @@ func main() {
 	fmt.Printf("Listening on %v\n", httpPort)
 	fmt.Printf("Logging to %v\n", logPath)
 
-	err := http.ListenAndServe(fmt.Sprintf(":%d", httpPort), logRequest(http.DefaultServeMux))
+	err := http.ListenAndServe(httpPort, logRequest(http.DefaultServeMux))
 	if err != nil {
 		log.Fatal(err)
 	}
