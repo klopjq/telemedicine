@@ -1,0 +1,6 @@
+ServerPort: 8000
+ServerApiKey: "apiKey"
+LocalPgSqlDsn: "postgres://telemedicine:password@localhost:5432/telemedicine?sslmode=disable"
+DbMaxConnections: 50
+ServerPem: "../../../config/server.pem"
+ServerKey: "../../../config/server.key"

@@ -50,7 +50,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		msg = fmt.Sprintf(`[{"uuId":"%s"}]`, uuid.New())
 	case "POST":
 		code = http.StatusCreated
-		msg = fmt.Sprintf(`{"uuId":"%s"}`, uuid.New())
+		msg = fmt.Sprintf(`{"id":"%s"}`, uuid.New())
 		if r.URL.Path == "/204/" {
 			code = http.StatusNoContent
 			msg = ""
