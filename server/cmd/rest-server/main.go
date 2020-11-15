@@ -2,12 +2,11 @@ package main
 
 import (
 	"context"
-	"net/http"
 	"os"
+	"os/signal"
 	"runtime"
-	"strconv"
+	"syscall"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/klopjq/telemedicine/config"
 	"github.com/klopjq/telemedicine/internal/data"
 	"github.com/klopjq/telemedicine/internal/log"
@@ -15,44 +14,17 @@ import (
 	"github.com/klopjq/telemedicine/server/pkg/server"
 )
 
-type serverSetup struct {
-	*config.Config
-	logger  log.Logger
-	ctx     context.Context
-	db      *sqlx.DB
-	handler http.Handler
-}
-
-func (s serverSetup) GetAddr() string {
-	//return fmt.Sprintf(":%d", s.Config.ServerPort)
-	return ":" + strconv.Itoa(s.Config.ServerPort)
-}
-
-func (s serverSetup) GetLogger() log.Logger {
-	return s.logger
-}
-
-func (s serverSetup) GetHttpHandler() http.Handler {
-	return s.handler
-}
-
-func (s serverSetup) GetDatabase() *sqlx.DB {
-	return s.db
-}
-
-func (s serverSetup) GetConfig() *config.Config {
-	return s.Config
-}
-
-func (s serverSetup) GetContext() context.Context {
-	return s.ctx
-}
-
 const (
 	version = 1.0
 )
 
 func main() {
+	if err := run(); err != nil {
+		panic(err)
+	}
+}
+
+func run() error {
 	numProcessor := runtime.NumCPU()
 	_ = os.Setenv("CONFIG_PATH", "../../../config/local.yaml")
 	configPath := os.Getenv("CONFIG_PATH")
@@ -60,32 +32,40 @@ func main() {
 	ctx, ctxCancel := context.WithCancel(context.Background())
 	defer ctxCancel()
 
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-quit
+		ctxCancel()
+	}()
+
 	logger := log.New().With(ctx, "version", version)
 	cfg, err := config.New(configPath, logger)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	db := data.DB{}
 	if err := db.Open(ctx, "postgres", cfg.LocalPgSqlDsn, 50); err != nil {
-		panic(err)
+		return err
 	}
 	defer db.Close()
-	setup := serverSetup{
+
+	restServer, err := server.NewRestfulAPI(server.SetupRestfulAPI{
 		Config:  cfg,
-		logger:  logger,
-		ctx:     ctx,
-		db:      db.Connection,
-		handler: routing.New(logger),
-	}
-	restServer, err := server.NewRestfulAPI(setup)
+		Logger:  logger,
+		Ctx:     ctx,
+		DB:      db.Connection,
+		Handler: routing.New(logger),
+	})
 
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	logger.Infof("Processors: %d", numProcessor)
 	if err := restServer.Run(); err != nil {
-		panic(err)
+		return err
 	}
+	return nil
 }
