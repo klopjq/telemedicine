@@ -15,9 +15,9 @@ const (
 )
 
 type Config struct {
-	ServerPort       int    `yaml:"ServerPort" env:"SERVER_PORT"`
+	ServerPort       int    `yaml:"ServerPort" env:"PORT"`
 	ServerApiKey     string `yaml:"ServerApiKey" env:"SERVER_API_KEY"`
-	LocalPgSqlDsn    string `yaml:"LocalPgSqlDsn" env:"LOCAL_PGSQL_DSN"`
+	LocalPgSqlDsn    string `yaml:"LocalPgSqlDsn" env:"DATABASE_URL"`
 	DbMaxConnections int    `yaml:"DbMaxConnections" env:"DB_MAX_CONNECTIONS"`
 	ServerPem        string `yaml:"ServerPem" env:"SERVER_PEM"`
 	ServerKey        string `yaml:"ServerKey" env:"SERVER_KEY"`
