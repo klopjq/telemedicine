@@ -31,7 +31,7 @@ func New(logger log.Logger) http.Handler {
 		//brotli.Brotli(cbrotli.WriterOptions{Quality: 5}, brotli.WithDecompressFn(brotli.DefaultDecompressHandle)),
 	)
 
-	api := router.Group("/v1")
+	api := router.Group("")
 	api.GET("/health", health.HealthHandler(logger))
 	//api.POST("/login", auth(cfg, logger), auth.LoginHandler(db, logger))
 
