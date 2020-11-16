@@ -1,6 +1,6 @@
-ServerPort: 80
+ServerPort: 0
 ServerApiKey: ""
 LocalPgSqlDsn: ""
-DbMaxConnections: 50
+DbMaxConnections: 0
 ServerPem: ""
 ServerKey: ""
