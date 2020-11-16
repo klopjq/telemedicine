@@ -1,1 +1,1 @@
-rest-server: bin/rest-server
+web: bin/rest-server
