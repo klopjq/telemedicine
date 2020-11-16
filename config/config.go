@@ -55,7 +55,7 @@ func New(fname string, logger log.Logger) (*Config, error) {
 		}
 	}
 
-	if err := env.New("APP_", logger.Infof).Load(&cfg); err != nil {
+	if err := env.New("", logger.Infof).Load(&cfg); err != nil {
 		return nil, err
 	}
 
