@@ -4,10 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/freyo/gin-cbrotli"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"github.com/google/brotli/go/cbrotli"
 	"github.com/klopjq/telemedicine/internal/ginlog"
 	"github.com/klopjq/telemedicine/internal/health"
 	"github.com/klopjq/telemedicine/internal/log"
@@ -31,7 +29,7 @@ func New(logger log.Logger) http.Handler {
 			c.Next()
 		},
 		gzip.Gzip(gzip.DefaultCompression, gzip.WithDecompressFn(gzip.DefaultDecompressHandle)),
-		brotli.Brotli(cbrotli.WriterOptions{Quality: 5}, brotli.WithDecompressFn(brotli.DefaultDecompressHandle)),
+		//brotli.Brotli(cbrotli.WriterOptions{Quality: 5}, brotli.WithDecompressFn(brotli.DefaultDecompressHandle)),
 	)
 
 	api := router.Group("/v1")
