@@ -20,7 +20,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
-RUN go build -a -o dummy-server $(pwd)/server/cmd/dummy-server
+RUN go build -a -o dummy-server $(pwd)/server/cmd/rest-server
 
 FROM node:alpine AS node_builder
 COPY --from=builder /app/client ./
@@ -30,10 +30,10 @@ RUN npm run build
 FROM alpine:latest
 WORKDIR /root
 RUN apk add --no-cache brotli-dev ca-certificates
-COPY --from=builder /app/dummy-server /usr/local/bin
+COPY --from=builder /app/rest-server /usr/local/bin
 COPY --from=builder /app/server/.env .
 
 COPY --from=node_builder /dist ./web
 EXPOSE 8080
 
-ENTRYPOINT ["dummy-server"]
+ENTRYPOINT ["rest-server"]
