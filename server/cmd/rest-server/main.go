@@ -26,7 +26,7 @@ func main() {
 
 func run() error {
 	numProcessor := runtime.NumCPU()
-	_ = os.Setenv("CONFIG_PATH", "../../../config/local.yaml")
+	//_ = os.Setenv("CONFIG_PATH", "../../../config/local.yaml")
 	configPath := os.Getenv("CONFIG_PATH")
 
 	ctx, ctxCancel := context.WithCancel(context.Background())
@@ -63,7 +63,7 @@ func run() error {
 		return err
 	}
 
-	logger.Infof("Processors: %d", numProcessor)
+	logger.Infof("Processors: %d, (%s)", numProcessor, cfg.LocalPgSqlDsn)
 	if err := restServer.Run(); err != nil {
 		return err
 	}
