@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	defaultServerPort = 5000
+	defaultServerPort = 8000
 )
 
 type Config struct {

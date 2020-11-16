@@ -34,6 +34,6 @@ COPY --from=builder /app/rest-server /usr/local/bin
 COPY --from=builder /app/server/.env .
 
 COPY --from=node_builder /dist ./web
-EXPOSE 8080
+EXPOSE 8000
 
 ENTRYPOINT ["rest-server"]
