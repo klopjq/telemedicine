@@ -6,7 +6,6 @@ import (
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"github.com/klopjq/telemedicine/internal/ginlog"
 	"github.com/klopjq/telemedicine/internal/health"
 	"github.com/klopjq/telemedicine/internal/log"
 )
@@ -14,8 +13,8 @@ import (
 func New(logger log.Logger) http.Handler {
 	router := gin.New()
 	router.Use(
-		ginlog.GinLog(logger),
-		//gin.Logger(),
+		//ginlog.GinLog(logger),
+		gin.Logger(),
 		gin.Recovery(),
 		// Handle compressions
 		func(c *gin.Context) {
