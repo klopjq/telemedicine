@@ -2,6 +2,7 @@ package tmis
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -9,14 +10,15 @@ import (
 )
 
 type form struct {
-	BodyTemperature  string `form:"field1,omitempty"`
-	HeartRate        string `form:"field2,omitempty"`
-	BloodPressureSys string `form:"field3,omitempty"`
-	BloodPressureDia string `form:"field4,omitempty"`
-	OxygenSaturation string `form:"field5,omitempty"`
-	RespiratoryRate  string `form:"field6,omitempty"`
-	FieldSeven       string `form:"field7,omitempty"`
-	FieldEight       string `form:"field8,omitempty"`
+	bodyTemperature  float64 `form:"field1,omitempty"`
+	heartRate        string  `form:"field2,omitempty"`
+	bloodPressureSys int     `form:"field3,omitempty"`
+	bloodPressureDia int     `form:"field4,omitempty"`
+	oxygenSaturation string  `form:"field5,omitempty"`
+	respiratoryRate  string  `form:"field6,omitempty"`
+	fieldSeven       string  `form:"field7,omitempty"`
+	fieldEight       string  `form:"field8,omitempty"`
+	receivedAt       time.Time
 }
 
 func UpdateHandler(logger log.Logger) gin.HandlerFunc {
@@ -31,6 +33,7 @@ func UpdateHandler(logger log.Logger) gin.HandlerFunc {
 				})
 			return
 		}
+		f.receivedAt = time.Now()
 		c.JSON(http.StatusOK,
 			gin.H{
 				"status":  http.StatusText(http.StatusOK),
