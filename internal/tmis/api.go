@@ -24,12 +24,12 @@ type form struct {
 func UpdateHandler(logger log.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var f form
-		if err := c.ShouldBind(&f); err != nil {
+		if err := c.Bind(&f); err != nil {
 			logger.Error(err)
-			c.AbortWithStatusJSON(http.StatusUnprocessableEntity,
+			c.AbortWithStatusJSON(http.StatusBadRequest,
 				gin.H{
-					"status": http.StatusText(http.StatusUnprocessableEntity),
-					"code":   http.StatusUnprocessableEntity,
+					"status": http.StatusText(http.StatusBadRequest),
+					"code":   http.StatusBadRequest,
 					"error":  err,
 				})
 			return
