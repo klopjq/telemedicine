@@ -25,6 +25,7 @@ func UpdateHandler(logger log.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var f form
 		if err := c.ShouldBind(&f); err != nil {
+			logger.Error(err)
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity,
 				gin.H{
 					"status": http.StatusText(http.StatusUnprocessableEntity),
