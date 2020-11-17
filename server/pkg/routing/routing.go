@@ -1,6 +1,7 @@
 package routing
 
 import (
+	"github.com/klopjq/telemedicine/internal/tmis"
 	"net/http"
 	"strings"
 
@@ -33,6 +34,7 @@ func New(logger log.Logger) http.Handler {
 
 	api := router.Group("/v1")
 	api.GET("/health", health.HealthHandler(logger))
+	api.POST("/update", auth(logger), tmis.UpdateHandler(logger))
 	//api.POST("/login", auth(cfg, logger), auth.LoginHandler(db, logger))
 
 	return router
