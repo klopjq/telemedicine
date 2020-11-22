@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script>
+        window.onload = function() {
+
+            var bodyTemperatureChartDataPoints = [];
+
+            var bodyTemperatureChart = new CanvasJS.Chart("bodyTemperature", {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: "Body Temperature Data"
+                },
+                axisY: {
+                    title: "Body Temperature",
+                    titleFontSize: 24,
+                    includeZero: true
+                },
+                data: [{
+                    type: "column",
+                    yValueFormatString: "##.## Body Temperature",
+                    dataPoints: bodyTemperatureChartDataPoints
+                }]
+            });
+
+            function bodyTemperatureChartAddData(data) {
+                for (var i = 0; i < data.length; i++) {
+                    bodyTemperatureChartDataPoints.push({
+                        x: new Date(data[i].ts),
+                        y: data[i].bodyTemperature
+                    });
+                }
+                bodyTemperatureChart.render();
+
+            }
+
+            var heartRateChartDataPoints = [];
+
+            var heartRateChart = new CanvasJS.Chart("heartRate", {
+                animationEnabled: true,
+                theme: "dark2",
+                title: {
+                    text: "Heart Rate Data"
+                },
+                axisY: {
+                    title: "Heart Rate",
+                    titleFontSize: 24,
+                    includeZero: true
+                },
+                data: [{
+                    type: "splineArea",
+                    yValueFormatString: "##.## Heart Rate",
+                    dataPoints: heartRateChartDataPoints
+                }]
+            });
+
+            function heartRateChartAddData(data) {
+                for (var i = 0; i < data.length; i++) {
+                    heartRateChartDataPoints.push({
+                        x: new Date(data[i].ts),
+                        y: data[i].bodyTemperature
+                    });
+                }
+                heartRateChart.render();
+
+            }
+
+            $.getJSON("data.json", bodyTemperatureChartAddData);
+            $.getJSON("data.json", heartRateChartAddData);
+        }
+    </script>
+</head>
+<body>
+<div id="bodyTemperature" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+<div id="heartRate" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>

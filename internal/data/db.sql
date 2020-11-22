@@ -22,6 +22,15 @@ CREATE TABLE IF NOT EXISTS users_medical_data(
 
 CREATE INDEX IF NOT EXISTS idx_users_medical_data ON users_medical_data USING GIN (data jsonb_path_ops);
 
-INSERT INTO users_medical_data(id, data) values(1, jsonb_build_array(jsonb_build_object('ts',NOW(),'bodyTemparature',36.7,'heartRate',56)))
+INSERT INTO users_medical_data(id, data)
+values(1, jsonb_build_array(jsonb_build_object('ts',NOW(),'bodyTemperature',36.7,'heartRate',56)))
+ON CONFLICT (id) DO
+UPDATE SET id=excluded.id, data=users_medical_data.data||excluded.data;
+
+INSERT INTO users_medical_data(id, data)
+values(1, jsonb_build_array(jsonb_build_object(
+	'ts',NOW()+(RANDOM() * (NOW()+'7 days' - NOW())) + '2 days',
+	'bodyTemperature',36.7+(FLOOR(RANDOM()*10+1)::INTEGER),
+	'heartRate',56+(FLOOR(RANDOM()*10+1)::INTEGER))))
 ON CONFLICT (id) DO
 UPDATE SET id=excluded.id, data=users_medical_data.data||excluded.data;

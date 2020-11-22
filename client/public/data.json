@@ -1,0 +1,37 @@
+[
+  {
+    "ts": "2020-11-18T13:14:39.077825+00:00",
+    "heartRate": 57,
+    "bodyTemperature": 43.7
+  },
+  {
+    "ts": "2020-11-20T13:14:41.317257+00:00",
+    "heartRate": 58,
+    "bodyTemperature": 37.7
+  },
+  {
+    "ts": "2020-11-21T13:14:42.593543+00:00",
+    "heartRate": 64,
+    "bodyTemperature": 40.7
+  },
+  {
+    "ts": "2020-11-22T13:14:42.593543+00:00",
+    "heartRate": 64,
+    "bodyTemperature": 40.7
+  },
+  {
+    "ts": "2020-11-24T17:49:21.481115+00:00",
+    "heartRate": 60,
+    "bodyTemperature": 43.7
+  },
+  {
+    "ts": "2020-11-25T17:15:39.731449+00:00",
+    "heartRate": 57,
+    "bodyTemperature": 44.7
+  },
+  {
+    "ts": "2020-11-26T14:38:26.553528+00:00",
+    "heartRate": 59,
+    "bodyTemperature": 37.7
+  }
+]
