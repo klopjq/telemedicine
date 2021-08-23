@@ -6,7 +6,7 @@ docker build --no-cache --build-arg SSH_PRIVATE_KEY="$(cat ~/.ssh/id_rsa_github)
 
 ```
 docker ps -a
-TELEMEDICINE_DATA="./postgres-data" docker-compose -p go-dwh down
+TELEMEDICINE_DATA="./postgres-data" docker-compose -p telemedicine down
 docker rmi <image>
 sudo rm -rf postgres-data
 
